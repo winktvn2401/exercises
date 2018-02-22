@@ -16,26 +16,29 @@ int main(int argc, char* argv[], char* envp[]) {
     int opt= 0;
     int long_index =0;
     static struct option long_options[] = {
-    {"help",      required_argument,       0,  'h' },
-    {"file",      required_argument,       0,  'f' },
-    {"end",       required_argument,       0,  'e' },
-    {"environment variables",   required_argument, 0,  'v' },
-    {0,           0,                 0,  0   }
+    {"help",                    no_argument,             0,  'h' },
+    {"file",                    required_argument,       0,  'f' },
+    {"end",                     required_argument,       0,  'e' },
+    {"env",   no_argument,             0,  'v' },
+    {0,    0,     0,    0}
 };
-    while ((opt = getopt_long(argc, argv,"apl:b:",
+    while ((opt = getopt_long(argc, argv,"hf:e:v",
                               long_options, &long_index )) != -1) {
         switch (opt) {
-        case 'h' : print_help();
+        case 'h' :
+            print_help();
             break;
         case 'f' :
             strcpy(buffer, optarg);
             printf("%s",buffer);
             read_file(buffer,false);
+            strcpy(buffer, "");
             break;
         case 'e' :
             strcpy(buffer, optarg);
             printf("%s",buffer);
             read_file(buffer,true);
+            strcpy(buffer, "");
             break;
         case 'v' :
             print_env(envp);
@@ -53,7 +56,7 @@ void print_help() {
     printf("Available program options:\n\
            -h --help                  Print this help and exit\n\
            -f --file <file name.txt>  Specify a text file and print its FIRST line\n\
-           -e --end  <file name.txt>  Specify a text file and print its LAST line\n \
+           -e --end <file name.txt>  Specify a text file and print its LAST line\n \
            -v --env                   Print environment variables\n");
 }
 
